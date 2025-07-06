@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectDB from "./src/connections/Db";
-import { errorHandler } from "./src/middleware/errorMiddleware";
+import connectDB from "./connections/Db";
+import { errorHandler } from "./middleware/errorMiddleware";
 
 // load dotenv file
 dotenv.config();
@@ -31,3 +31,4 @@ app.use(
   app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
