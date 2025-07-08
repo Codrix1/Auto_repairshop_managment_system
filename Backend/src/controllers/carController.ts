@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import Car from '../models/Car';
-import Customer from '../models/customer';
+import Customer from '../models/Customer';
+
+
 // Create a new car (linked to a customer)
 export const createCar = async (req: Request, res: Response) => {
   try {

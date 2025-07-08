@@ -1,4 +1,5 @@
-import express from 'express';
+import { Router } from 'express';
+
 import {
   createCar,               
   getAllCars,
@@ -7,7 +8,7 @@ import {
   deleteCar
 } from '../controllers/carController';
 
-const carRouter = express.Router();
+const carRouter = Router();
 
 carRouter.post('/', createCar);
 carRouter.get('/', getAllCars);
