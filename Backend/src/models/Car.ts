@@ -14,8 +14,6 @@ export interface ICar extends Document {
 
 const CarSchema = new Schema<ICar>({
   customerId: { type: Schema.Types.ObjectId, ref: 'Customer', required: true },
-  customerName: { type: String, required: true },
-  phone: { type: String, required: true },
   carType: { type: String, required: true },
   carModel: { type: String, required: true },
   carNumber: { type: String, required: true },
