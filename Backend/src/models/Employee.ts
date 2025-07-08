@@ -14,5 +14,4 @@ address: { type: String, required: true },
 phoneNumber: { type: String, required: true },
 });
 
-
 export default model<IEmployee>('Employee', EmployeeSchema);
