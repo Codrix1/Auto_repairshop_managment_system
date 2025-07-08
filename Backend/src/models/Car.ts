@@ -1,6 +1,7 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface ICar extends Document {
+  customerId: Types.ObjectId;
   customerName: string;
   phone: string;
   carType: string;
@@ -12,6 +13,7 @@ export interface ICar extends Document {
 }
 
 const CarSchema = new Schema<ICar>({
+  customerId: { type: Schema.Types.ObjectId, ref: 'Customer', required: true },
   customerName: { type: String, required: true },
   phone: { type: String, required: true },
   carType: { type: String, required: true },
