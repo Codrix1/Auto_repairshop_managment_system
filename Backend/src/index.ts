@@ -21,6 +21,8 @@ app.use(cookieParser());
 // define port 
 const port = process.env.PORT || 5000;
 // apply cors middleware to allow access from browser
+
+
 app.use(
     cors({
       origin: "http://localhost:3000",
