@@ -9,6 +9,6 @@ employeeRouter.get('/',getAllEmployees);
 employeeRouter.get('/:id',getEmployeeById);
 employeeRouter.post('/',addEmployee);
 employeeRouter.delete('/:id',deleteEmployee);
-employeeRouter.patch('/:id',updateEmployee);
+employeeRouter.put('/:id',updateEmployee);
 
 export default employeeRouter;

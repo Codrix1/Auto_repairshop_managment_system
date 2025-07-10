@@ -8,6 +8,7 @@ import { errorHandler } from "./middleware/errorMiddleware";
 import customerRouter from "./routes/customerRouter";
 import employeeRouter from "./routes/employeeRouter";
 import carRouter from "./routes/carRouter";
+import attendanceRouter from "./routes/attendanceRouter";
 
 // load dotenv file
 dotenv.config();
@@ -31,6 +32,7 @@ app.use(cookieParser());
 app.use('/customers', customerRouter);
 app.use('/employees', employeeRouter);
 app.use('/cars', carRouter);
+app.use('/attendances', attendanceRouter);
 
 // define port 
 const port = process.env.PORT || 5000;

@@ -37,7 +37,7 @@ const getAllEmployees = async (request: Request, response: Response, next: NextF
 
 const getEmployeeById = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const employeeId = request.params
+        const employeeId = request.params.id;
         const employee = await Employee.find({_id:employeeId});
         if (!employee){
             response.status(500).json("No employee found")
@@ -53,7 +53,7 @@ const getEmployeeById = async (request: Request, response: Response, next: NextF
 
 const updateEmployee = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const employeeId = request.params;
+        const employeeId = request.params.id;
         const {name, salary, address, phoneNumber} = request.body;
         const employee = await Employee.findOneAndUpdate(
             {_id:employeeId},
@@ -74,7 +74,7 @@ const updateEmployee = async (request: Request, response: Response, next: NextFu
 
 const deleteEmployee = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const employeeId = request.params
+        const employeeId = request.params.id;
         const employee = await Employee.findOneAndDelete({_id:employeeId});
         if (!employee){
             response.status(500).json("No employee found")

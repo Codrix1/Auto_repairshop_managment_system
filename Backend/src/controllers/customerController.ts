@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import Customer from "../models/Customer";
+import Customer from "../models/customer";
 
 
 const addCustomer = async (request: Request, response: Response, next: NextFunction) => {
@@ -37,7 +37,7 @@ const getAllCustomers = async (request: Request, response: Response, next: NextF
 
 const getCustomerById = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const customerId = request.params
+        const customerId = request.params.id;
         const customer = await Customer.find({_id:customerId});
         if (!customer){
             response.status(500).json("No customer found")
@@ -53,7 +53,7 @@ const getCustomerById = async (request: Request, response: Response, next: NextF
 
 const updateCustomer = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const customerId = request.params;
+        const customerId = request.params.id;
         const {name, phone} = request.body;
         const customer = await Customer.findOneAndUpdate(
             {_id:customerId},
@@ -74,7 +74,7 @@ const updateCustomer = async (request: Request, response: Response, next: NextFu
 
 const deleteCustomer = async (request: Request, response: Response, next: NextFunction) => {
     try{
-        const customerId = request.params
+        const customerId = request.params.id;
         const customer = await Customer.findOneAndDelete({_id:customerId});
         if (!customer){
             response.status(500).json("No customer found")

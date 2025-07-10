@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Car from '../models/Car';
-import Customer from '../models/Customer';
+import Customer from '../models/customer';
 
 
 // Create a new car (linked to a customer)
@@ -12,20 +12,25 @@ export const createCar = async (req: Request, res: Response) => {
     } = req.body;
 
     // Validate customer
-    const newCustomer = await Customer.findOne({$or:[{name:customer.name}, {phone:customer.phoneNumber}].filter(Boolean)});
-    if (!customer) {
-        const newCustomer = Customer.create(
-        {
-            name:customer.name,
-            phone: customer.phone,
-        })
+    let existingCustomer = await Customer.findOne({
+      $or: [
+        { customerName: customer.name }, 
+        { customerPhone: customer.phone }
+      ].filter(Boolean)
+    });
+    
+    if (!existingCustomer) {
+      existingCustomer = await Customer.create({
+        customerName: customer.name,
+        customerPhone: customer.phone,
+      });
     }
     
 
     const newCar = await Car.create({
-      customerId:customer.id,
-      customerName: customer.name,
-      phone: customer.phone,
+      customerId: existingCustomer._id,
+      customerName: existingCustomer.customerName,
+      phone: existingCustomer.customerPhone,
       carType: car.carType,
       carModel: car.carModel,
       carNumber: car.licensePlate,
@@ -43,7 +48,7 @@ export const createCar = async (req: Request, res: Response) => {
 // Get all cars (with customer info optionally populated)
 export const getAllCars = async (_req: Request, res: Response) => {
   try {
-    const cars = await Car.find().populate('customerId', 'name phone email');
+    const cars = await Car.find().populate('customerId', 'customerName customerPhone');
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch cars', details: err });
@@ -53,7 +58,7 @@ export const getAllCars = async (_req: Request, res: Response) => {
 // Get single car by ID
 export const getCarById = async (req: Request, res: Response) => {
   try {
-    const car = await Car.findById(req.params.id).populate('customerId', 'name phone email');
+    const car = await Car.findById(req.params.id).populate('customerId', 'customerName customerPhone');
     if (!car) {
       return res.status(404).json({ message: 'Car not found' });
     }
@@ -74,8 +79,8 @@ export const updateCar = async (req: Request, res: Response) => {
       if (!customer) {
         return res.status(404).json({ error: 'Customer not found' });
       }
-      req.body.customerName = customer.name;
-      req.body.phone = customer.phone;
+      req.body.customerName = customer.customerName;
+      req.body.phone = customer.customerPhone;
     }
 
     const updatedCar = await Car.findByIdAndUpdate(req.params.id, req.body, {
