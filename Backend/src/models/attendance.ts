@@ -3,7 +3,7 @@ import {Schema, Model, Document, Types, Date, model} from "mongoose";
 
 export interface IAttendance extends Document {
     employeeId: Types.ObjectId;
-    attendanceDate: Date;
+    attendanceDate: string;
     checkIn?: string;
     checkOut?: string;
     status: 'present' | 'absent' | 'sick';
@@ -11,8 +11,8 @@ export interface IAttendance extends Document {
 }
 
 const attendanceSchema = new Schema<IAttendance>({
-    employeeId: {type: Schema.Types.ObjectId, ref: "Customer", required: true },
-    attendanceDate: {type: Date, required: true},
+    employeeId: {type: Schema.Types.ObjectId, ref: "Employee", required: true },
+    attendanceDate: {type: String, required: true},
     checkIn: { type: String }, 
     checkOut: { type: String },
     status: {
