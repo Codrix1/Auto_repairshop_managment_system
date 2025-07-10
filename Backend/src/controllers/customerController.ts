@@ -29,9 +29,9 @@ const getAllCustomers = async (request: Request, response: Response, next: NextF
         response.status(200).json(customers);
         return;
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -45,9 +45,9 @@ const getCustomerById = async (request: Request, response: Response, next: NextF
         response.status(200).json(customer);
         return;
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -66,9 +66,9 @@ const updateCustomer = async (request: Request, response: Response, next: NextFu
         }
         response.status(200).json(customer);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -82,9 +82,9 @@ const deleteCustomer = async (request: Request, response: Response, next: NextFu
         }
         response.status(200).json(customer);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 

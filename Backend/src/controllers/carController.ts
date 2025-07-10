@@ -6,49 +6,82 @@ import Customer from '../models/customer';
 // Create a new car (linked to a customer)
 export const createCar = async (req: Request, res: Response) => {
   try {
-    const {
-      customer,
-      car
-    } = req.body;
+    const { customer, car } = req.body;
+
+    // Error validation for required fields
+    if (
+      !customer ||
+      !customer.name ||
+      !customer.phone
+    ) {
+      return res.status(400).json({ error: "Customer name and phone are required." });
+    }
+
+    if (
+      !car ||
+      typeof car !== "object" ||
+      !car.carName ||
+      !car.carModel ||
+      !car.licensePlate ||
+      !car.carColor ||
+      car.mileage === undefined
+    ) {
+      return res.status(400).json({
+        error:
+          "Car details are required: carName, carModel, licensePlate, carColor, and mileage.",
+      });
+    }
+
+    // Validate mileage is a number
+    if (typeof car.mileage !== "number" || isNaN(car.mileage)) {
+      return res.status(400).json({ error: "Mileage must be a valid number." });
+    }
 
     // Validate customer
     let existingCustomer = await Customer.findOne({
       $or: [
-        { customerName: customer.name }, 
-        { customerPhone: customer.phone }
-      ].filter(Boolean)
+        { customerName: customer.name },
+        { customerPhone: customer.phone },
+      ].filter(Boolean),
     });
-    
+
     if (!existingCustomer) {
       existingCustomer = await Customer.create({
         customerName: customer.name,
         customerPhone: customer.phone,
       });
     }
-    
-
     const newCar = await Car.create({
       customerId: existingCustomer._id,
-      customerName: existingCustomer.customerName,
-      phone: existingCustomer.customerPhone,
-      carType: car.carType,
+      carName: car.carName,
       carModel: car.carModel,
-      carNumber: car.licensePlate,
+      licensePlate: car.licensePlate,
       carColor: car.carColor,
       mileage: car.mileage,
       entryDate: Date.now(),
     });
 
     res.status(201).json(newCar);
-  } catch (err) {
-    res.status(400).json({ error: 'Failed to create car', details: err });
+  } catch (err: any) {
+    res.status(400).json({ error: "Failed to create car", message: err.message });
+    return;
   }
 };
 
-// Get all cars (with customer info optionally populated)
-export const getAllCars = async (_req: Request, res: Response) => {
+// Get all cars
+export const getAllCars = async (req: Request, res: Response) => {
   try {
     const cars = await Car.find().populate('customerId', 'customerName customerPhone');
+    res.status(200).json(cars);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch cars', details: err });
+  }
+};
+
+// Get all cars for a customer
+export const getAllCarsForCustomer = async (req: Request, res: Response) => {
+  try {
+    const cars = await Car.find({customerId: req.params.customerid}).populate('customerId', 'customerName customerPhone');
     res.status(200).json(cars);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch cars', details: err });

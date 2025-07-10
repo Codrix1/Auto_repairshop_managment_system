@@ -5,7 +5,8 @@ import {
   getAllCars,
   getCarById,
   updateCar,
-  deleteCar
+  deleteCar,
+  getAllCarsForCustomer
 } from '../controllers/carController';
 
 const carRouter = Router();
@@ -13,6 +14,7 @@ const carRouter = Router();
 carRouter.post('/', createCar);
 carRouter.get('/', getAllCars);
 carRouter.get('/:id', getCarById);
+carRouter.get('/customer/:customerid', getAllCarsForCustomer);
 carRouter.put('/:id', updateCar);
 carRouter.delete('/:id', deleteCar);
 

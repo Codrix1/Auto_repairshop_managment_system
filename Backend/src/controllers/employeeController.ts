@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Employee from "../models/Employee";
+import { Error } from "mongoose";
 
 
 const addEmployee = async (request: Request, response: Response, next: NextFunction) => {
@@ -14,9 +15,9 @@ const addEmployee = async (request: Request, response: Response, next: NextFunct
 
         response.status(200).json(employee);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -29,9 +30,9 @@ const getAllEmployees = async (request: Request, response: Response, next: NextF
         response.status(200).json(employees);
         return;
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -45,9 +46,9 @@ const getEmployeeById = async (request: Request, response: Response, next: NextF
         response.status(200).json(employee);
         return;
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -66,9 +67,9 @@ const updateEmployee = async (request: Request, response: Response, next: NextFu
         }
         response.status(200).json(employee);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 
@@ -82,9 +83,9 @@ const deleteEmployee = async (request: Request, response: Response, next: NextFu
         }
         response.status(200).json(employee);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        response.status(500).json({message: err})
+        response.status(500).json({message: err.message})
     }
 }
 

@@ -11,9 +11,9 @@ export const getAllAttendances = async (req: Request, res: Response) => {
             return;
         }
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        res.status(500).json({message: err})
+        res.status(500).json({message: err.message})
     }
 }
 
@@ -26,9 +26,9 @@ export const getAttendanceById = async (req: Request, res: Response) => {
             return;
         }
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        res.status(500).json({message: err})
+        res.status(500).json({message: err.message})
     }
 }
 
@@ -48,8 +48,8 @@ export const takeAttendance = async (req: Request, res: Response) => {
         }
         res.status(200).json(attendance);
     }
-    catch(err: unknown)
+    catch(err: any)
     {
-        res.status(500).json({message: err})
+        res.status(500).json({message: err.message})
     }
 }
