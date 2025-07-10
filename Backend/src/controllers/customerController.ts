@@ -5,7 +5,7 @@ import Customer from "../models/customer";
 const addCustomer = async (request: Request, response: Response, next: NextFunction) => {
     try{
         const {name, phone} = request.body;
-        const customer = await Customer.create({name: name, phone: phone});
+        const customer = await Customer.create({customerName: name, customerPhone: phone});
         
         if (!customer){
             response.status(500).json({message: "error adding customer"});
@@ -54,10 +54,10 @@ const getCustomerById = async (request: Request, response: Response, next: NextF
 const updateCustomer = async (request: Request, response: Response, next: NextFunction) => {
     try{
         const customerId = request.params.id;
-        const {name, phone} = request.body;
+        const {customerName, customerPhone} = request.body;
         const customer = await Customer.findOneAndUpdate(
             {_id:customerId},
-            {name, phone},
+            {customerName, customerPhone},
             { new: true }
         );
         if (!customer){
