@@ -147,8 +147,8 @@ export const getAttendanceByDate = async (req: Request, res: Response) => {
 export const updateAttendance = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
-        const { checkIn, checkOut, status, note} = req.body;
-        const attendance = await Attendance.findByIdAndUpdate(id, {checkIn, checkOut, status, note}, {new: true});
+        const updateFields = req.body;
+        const attendance = await Attendance.findByIdAndUpdate(id, updateFields, {new: true, omitUndefined: true});
         if(!attendance)
         {
             res.status(404).json({message: "attendance not found"})

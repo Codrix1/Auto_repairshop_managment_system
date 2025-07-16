@@ -55,11 +55,11 @@ const getEmployeeById = async (request: Request, response: Response, next: NextF
 const updateEmployee = async (request: Request, response: Response, next: NextFunction) => {
     try{
         const employeeId = request.params.id;
-        const {name, salary, address, phoneNumber} = request.body;
+        const updateFields = request.body;
         const employee = await Employee.findOneAndUpdate(
             {_id:employeeId},
-            {name, salary, address, phoneNumber},
-            { new: true }
+            updateFields,
+            { new: true, omitUndefined: true }
         );
         if (!employee){
             response.status(500).json("No employee found");

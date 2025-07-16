@@ -54,11 +54,11 @@ const getCustomerById = async (request: Request, response: Response, next: NextF
 const updateCustomer = async (request: Request, response: Response, next: NextFunction) => {
     try{
         const customerId = request.params.id;
-        const {customerName, customerPhone} = request.body;
+        const updateFields = request.body;
         const customer = await Customer.findOneAndUpdate(
             {_id:customerId},
-            {customerName, customerPhone},
-            { new: true }
+            updateFields,
+            { new: true, omitUndefined: true }
         );
         if (!customer){
             response.status(500).json("No customer found");

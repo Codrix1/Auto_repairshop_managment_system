@@ -9,6 +9,7 @@ import customerRouter from "./routes/customerRouter";
 import employeeRouter from "./routes/employeeRouter";
 import carRouter from "./routes/carRouter";
 import attendanceRouter from "./routes/attendanceRouter";
+import carPartsRouter from "./routes/carPartsRouter";
 
 // load dotenv file
 dotenv.config();
@@ -33,7 +34,7 @@ app.use('/customers', customerRouter);
 app.use('/employees', employeeRouter);
 app.use('/cars', carRouter);
 app.use('/attendances', attendanceRouter);
-
+app.use('/carParts', carPartsRouter);
 // define port 
 const port = process.env.PORT || 5000;
 
