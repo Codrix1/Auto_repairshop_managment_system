@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectToDB from "./connections/Db";
-import { errorHandler } from "./middleware/errorMiddleware";
+import connectToDB from "./connections/DB";
+import { errorHandler } from "./middlewares/errorMiddleware";
 import customerRouter from "./routes/customerRouter";
 import employeeRouter from "./routes/employeeRouter";
 import carRouter from "./routes/carRouter";
@@ -12,10 +12,10 @@ import attendanceRouter from "./routes/attendanceRouter";
 import carPartsRouter from "./routes/carPartsRouter";
 
 // load dotenv file
-dotenv.config();
+dotenv.config({quiet: true});
 
 // connect to mongo database
-connectToDB();
+connectToDB().then(() => console.log("Connected to MongoDB Successfully.")).catch((e) => { if(e) console.error(`Error in DB: ${e}`) } );
 
 // define express app
 const app = express();
@@ -35,9 +35,9 @@ app.use('/employees', employeeRouter);
 app.use('/cars', carRouter);
 app.use('/attendances', attendanceRouter);
 app.use('/carParts', carPartsRouter);
+
 // define port 
 const port = process.env.PORT || 5000;
-
 
 // apply cors middleware to allow access from browser
 app.use(

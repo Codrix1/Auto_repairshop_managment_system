@@ -6,15 +6,15 @@ import {
     getCustomerById,
     updateCustomer
 } from "../controllers/customerController";
-
+import { authMiddleware } from "../middlewares/authMiddleWare";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const customerRouter = Router();
 
-
-customerRouter.get('/', getAllCustomers);
-customerRouter.get('/:id', getCustomerById);
-customerRouter.post('/', addCustomer);
-customerRouter.put('/:id', updateCustomer);
-customerRouter.delete('/:id', deleteCustomer);
+customerRouter.get('/', authMiddleware, getAllCustomers);
+customerRouter.get('/:id', authMiddleware, getCustomerById);
+customerRouter.post('/', authMiddleware, roleMiddleware('admin'), addCustomer);
+customerRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateCustomer);
+customerRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteCustomer);
 
 export default customerRouter;

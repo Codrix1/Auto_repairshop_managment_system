@@ -5,10 +5,10 @@ export interface ICarPart extends Document {
     buyingPrice: number;
     sellingPrice: number;
     quantity: number;
-    category: string;
     isImported?: boolean;
     madeIn: string;
-    supplier?: string;
+    supplier?: Types.ObjectId;
+    category: 'Oils' | 'Oil Filters' | 'AC Filters' | 'Air Filters' | 'Petrol Filters' | 'Bejohant' | 'Seuor';
 }
 
 const CarPartSchema = new Schema({
@@ -16,10 +16,14 @@ const CarPartSchema = new Schema({
     buyingPrice: { type: Number, required: true },
     sellingPrice: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    category: { type: String, required: true },
     isImported: { type: Boolean, default: false },
     madeIn: { type: String, required: true },
-    supplier: { type: String,},
+    supplier: {type: Schema.Types.ObjectId, ref: "Supplier", required: true },
+    category: {
+        type: String,
+        enum: ['Oils', 'Oil Filters', 'AC Filters', 'Air Filters', 'Petrol Filters', 'Bejohant', 'Seuor'],
+        default: 'mechanic'
+    },
 });
 
 export const CarPart = model<ICarPart>('CarPart', CarPartSchema);

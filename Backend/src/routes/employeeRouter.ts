@@ -1,14 +1,15 @@
 import { Router } from "express";
-import { addEmployee, deleteEmployee, getAllEmployees, getEmployeeById, updateEmployee } from "../controllers/employeeController";
-
+import { addEmployee, deleteEmployee, getAllEmployees, getEmployeeById, loginEmployee, updateEmployee } from "../controllers/employeeController";
+import { authMiddleware } from "../middlewares/authMiddleWare";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const employeeRouter = Router();
 
-
-employeeRouter.get('/',getAllEmployees);
-employeeRouter.get('/:id',getEmployeeById);
-employeeRouter.post('/',addEmployee);
-employeeRouter.delete('/:id',deleteEmployee);
-employeeRouter.put('/:id',updateEmployee);
+employeeRouter.get('/', authMiddleware, getAllEmployees);
+employeeRouter.get('/:id', authMiddleware, getEmployeeById);
+employeeRouter.post('/', addEmployee);
+employeeRouter.post('/login', loginEmployee);
+employeeRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteEmployee);
+employeeRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateEmployee);
 
 export default employeeRouter;

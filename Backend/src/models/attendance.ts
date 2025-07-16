@@ -6,7 +6,7 @@ export interface IAttendance extends Document {
     attendanceDate: string;
     checkIn?: string;
     checkOut?: string;
-    status: 'present' | 'absent' | 'sick';
+    status: 'present' | 'absent' | 'excused';
     note?: string;
 }
 
@@ -17,7 +17,7 @@ const attendanceSchema = new Schema<IAttendance>({
     checkOut: { type: String },
     status: {
         type: String,
-        enum: ['present', 'absent', 'sick'],
+        enum: ['present', 'absent', 'excused'],
         default: 'absent'
     },
     note: { type: String }
@@ -25,7 +25,7 @@ const attendanceSchema = new Schema<IAttendance>({
 timestamps: true
 });
 
-attendanceSchema.index({ employeeId: 1, date: 1 }, { unique: true });
+attendanceSchema.index({ employeeId: 1, attendanceDate: 1 }, { unique: true });
 
 export default model<IAttendance>('Attendance',attendanceSchema);
 

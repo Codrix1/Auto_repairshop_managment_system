@@ -1,19 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import Employee from "../models/Employee";
-import { Error } from "mongoose";
+import { generateToken } from '../utils/auth'
+import bcrypt from 'bcryptjs'
 
-
-const addEmployee = async (request: Request, response: Response, next: NextFunction) => {
+const addEmployee = async (request: Request, response: Response) => {
     try{
-        const {name, salary, address, phoneNumber} = request.body;
-        const employee = await Employee.create({name: name, salary: salary, address: address, phoneNumber: phoneNumber});
+        const {name, password, salary, rate, role, address, phoneNumber} = request.body;
+        const employee = await Employee.create({name: name, password: password, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber});
         
         if (!employee){
-            response.status(500).json({message: "error adding employee"});
+            response.status(500).json({message: "Error adding employee"});
             return;
         }
 
-        response.status(200).json(employee);
+        response.status(200).json({message: "User registered successfully.", name: name, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber});
     }
     catch(err: any)
     {
@@ -21,7 +21,7 @@ const addEmployee = async (request: Request, response: Response, next: NextFunct
     }
 }
 
-const getAllEmployees = async (request: Request, response: Response, next: NextFunction) => {
+const getAllEmployees = async (request: Request, response: Response) => {
     try{
         const employees = await Employee.find();
         if (!employees){
@@ -36,10 +36,10 @@ const getAllEmployees = async (request: Request, response: Response, next: NextF
     }
 }
 
-const getEmployeeById = async (request: Request, response: Response, next: NextFunction) => {
+const getEmployeeById = async (request: Request, response: Response) => {
     try{
         const employeeId = request.params.id;
-        const employee = await Employee.find({_id:employeeId});
+        const employee = await Employee.find({_id: employeeId});
         if (!employee){
             response.status(500).json("No employee found")
         }
@@ -52,12 +52,12 @@ const getEmployeeById = async (request: Request, response: Response, next: NextF
     }
 }
 
-const updateEmployee = async (request: Request, response: Response, next: NextFunction) => {
+const updateEmployee = async (request: Request, response: Response) => {
     try{
         const employeeId = request.params.id;
         const updateFields = request.body;
         const employee = await Employee.findOneAndUpdate(
-            {_id:employeeId},
+            {_id: employeeId},
             updateFields,
             { new: true, omitUndefined: true }
         );
@@ -73,10 +73,10 @@ const updateEmployee = async (request: Request, response: Response, next: NextFu
     }
 }
 
-const deleteEmployee = async (request: Request, response: Response, next: NextFunction) => {
+const deleteEmployee = async (request: Request, response: Response) => {
     try{
         const employeeId = request.params.id;
-        const employee = await Employee.findOneAndDelete({_id:employeeId});
+        const employee = await Employee.findOneAndDelete({_id: employeeId});
         if (!employee){
             response.status(500).json("No employee found")
             return;
@@ -88,5 +88,30 @@ const deleteEmployee = async (request: Request, response: Response, next: NextFu
         response.status(500).json({message: err.message})
     }
 }
+   
+  // Login User
+const loginEmployee = async (req: Request, res: Response) => {
+    try {
+      const { name, password } = req.body;
+      const employee = await Employee.findOne({ name: name });
+      if (employee && (await bcrypt.compare(password, employee.password))) {
+        res.status(200).json({
+          message: "Logged in successfully",
+          _id: employee._id,
+          name: employee.name,
+          salary: employee.salary,
+          rate: employee.rate,
+          role: employee.role,
+          address: employee.address,
+          phoneNumber: employee.phoneNumber,
+          token: generateToken(employee._id),
+        });
+      } else {
+        res.status(401).json({ error: 'Invalid Data' });
+      }
+    } catch (error: any) {
+      res.status(400).json({ error: error.message });
+    }
+  };
 
-export {addEmployee,getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee};
+export {loginEmployee, addEmployee,getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee};

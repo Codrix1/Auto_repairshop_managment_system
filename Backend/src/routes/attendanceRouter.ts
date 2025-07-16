@@ -1,16 +1,18 @@
 import { Router } from "express";
 import { checkInEmployee, checkOutEmployee, getAllAttendances, getAttendanceByDate, getAttendanceByEmployeeId, getAttendanceById, removeAttendance, takeAttendance, updateAttendance } from "../controllers/attendanceController";
+import { authMiddleware } from "../middlewares/authMiddleWare";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const attendanceRouter = Router();
 
-attendanceRouter.get("/", getAllAttendances);
-attendanceRouter.get("/:id", getAttendanceById);
-attendanceRouter.post("/", takeAttendance);
-attendanceRouter.post("/checkin", checkInEmployee);
-attendanceRouter.post("/checkout", checkOutEmployee);
-attendanceRouter.get("/employee/:employeeId", getAttendanceByEmployeeId);
-attendanceRouter.get("/date/:date", getAttendanceByDate);
-attendanceRouter.put("/:id", updateAttendance);
-attendanceRouter.delete("/:id", removeAttendance);
+attendanceRouter.get("/", authMiddleware, getAllAttendances);
+attendanceRouter.get("/:id", authMiddleware, getAttendanceById);
+attendanceRouter.post("/", authMiddleware, takeAttendance);
+attendanceRouter.post("/checkin", authMiddleware, checkInEmployee);
+attendanceRouter.post("/checkout", authMiddleware, checkOutEmployee);
+attendanceRouter.get("/employee/:employeeId", authMiddleware, getAttendanceByEmployeeId);
+attendanceRouter.get("/date/:date", authMiddleware, getAttendanceByDate);
+attendanceRouter.put("/:id", authMiddleware, roleMiddleware('admin'), updateAttendance);
+attendanceRouter.delete("/:id", authMiddleware, roleMiddleware('admin'), removeAttendance);
 
 export default attendanceRouter;

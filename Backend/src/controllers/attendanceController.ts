@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import Attendance from "../models/attendance";
-import mongoose from "mongoose";
-
+import Attendance from "../models/Attendance";
 
 export const getAllAttendances = async (req: Request, res: Response) => {
     try {
@@ -24,7 +22,7 @@ export const getAttendanceById = async (req: Request, res: Response) => {
         const attendance = await Attendance.findById(req.params.id);
         if(!attendance)
         {
-            res.status(404).json({message: "attendance not found"})
+            res.status(404).json({message: "Attendance not found"})
             return;
         }
         res.status(200).json(attendance);
@@ -116,7 +114,7 @@ export const getAttendanceByEmployeeId = async (req: Request, res: Response) => 
         const attendance = await Attendance.find({employeeId}).populate('employeeId', 'employeeName employeePhone');
         if(!attendance)
         {
-            res.status(404).json({message: "attendance not found"})
+            res.status(404).json({message: "Attendance not found"})
             return;
         }
         res.status(200).json(attendance);
@@ -133,7 +131,7 @@ export const getAttendanceByDate = async (req: Request, res: Response) => {
         const attendance = await Attendance.find({attendanceDate: date}).populate('employeeId', 'employeeName employeePhone');
         if(!attendance)
         {
-            res.status(404).json({message: "attendance not found"})
+            res.status(404).json({message: "Attendance not found"})
             return;
         }
         res.status(200).json(attendance);
@@ -151,7 +149,7 @@ export const updateAttendance = async (req: Request, res: Response) => {
         const attendance = await Attendance.findByIdAndUpdate(id, updateFields, {new: true, omitUndefined: true});
         if(!attendance)
         {
-            res.status(404).json({message: "attendance not found"})
+            res.status(404).json({message: "Attendance not found"})
             return;
         }
         res.status(200).json(attendance);
@@ -168,7 +166,7 @@ export const removeAttendance = async (req: Request, res: Response) => {
         const attendance = await Attendance.findByIdAndDelete(id);
         if(!attendance)
         {
-            res.status(404).json({message: "attendance not found"})
+            res.status(404).json({message: "Attendance not found"})
             return;
         }
         res.status(200).json(attendance);

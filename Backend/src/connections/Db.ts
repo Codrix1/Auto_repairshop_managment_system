@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-dotenv.config({path: '../.env'});
 
-console.log('Loaded MONGODB_URI:', process.env.MONGODB_URI ?.substring(0, 10) + '...');
+dotenv.config({path: '../.env', quiet: true});
 
-const connectEmployeeDB = async () => {
+const connectToDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI || "");
     console.log(`MongoDB Connected: ${conn.connection.host}`);
@@ -14,4 +13,4 @@ const connectEmployeeDB = async () => {
   }
 };
 
-export default connectEmployeeDB;
+export default connectToDB;

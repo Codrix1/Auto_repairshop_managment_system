@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import Customer from "../models/customer";
+import { Request, Response } from "express";
+import Customer from "../models/Customer";
 
 
-const addCustomer = async (request: Request, response: Response, next: NextFunction) => {
+const addCustomer = async (request: Request, response: Response) => {
     try{
         const {name, phone} = request.body;
         const customer = await Customer.create({customerName: name, customerPhone: phone});
@@ -20,7 +20,7 @@ const addCustomer = async (request: Request, response: Response, next: NextFunct
     }
 }
 
-const getAllCustomers = async (request: Request, response: Response, next: NextFunction) => {
+const getAllCustomers = async (request: Request, response: Response) => {
     try{
         const customers = await Customer.find();
         if (!customers){
@@ -35,7 +35,7 @@ const getAllCustomers = async (request: Request, response: Response, next: NextF
     }
 }
 
-const getCustomerById = async (request: Request, response: Response, next: NextFunction) => {
+const getCustomerById = async (request: Request, response: Response) => {
     try{
         const customerId = request.params.id;
         const customer = await Customer.find({_id:customerId});
@@ -51,7 +51,7 @@ const getCustomerById = async (request: Request, response: Response, next: NextF
     }
 }
 
-const updateCustomer = async (request: Request, response: Response, next: NextFunction) => {
+const updateCustomer = async (request: Request, response: Response) => {
     try{
         const customerId = request.params.id;
         const updateFields = request.body;
@@ -72,10 +72,10 @@ const updateCustomer = async (request: Request, response: Response, next: NextFu
     }
 }
 
-const deleteCustomer = async (request: Request, response: Response, next: NextFunction) => {
+const deleteCustomer = async (request: Request, response: Response) => {
     try{
         const customerId = request.params.id;
-        const customer = await Customer.findOneAndDelete({_id:customerId});
+        const customer = await Customer.findOneAndDelete({_id: customerId});
         if (!customer){
             response.status(500).json("No customer found")
             return;
@@ -88,4 +88,4 @@ const deleteCustomer = async (request: Request, response: Response, next: NextFu
     }
 }
 
-export {addCustomer,getAllCustomers, getCustomerById, updateCustomer, deleteCustomer};
+export {addCustomer, getAllCustomers, getCustomerById, updateCustomer, deleteCustomer};
