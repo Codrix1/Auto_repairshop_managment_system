@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Car from '../models/Car';
-import Customer from '../models/Customer';
+import Customer from '../models/customer';
 
 
 // Create a new car (linked to a customer)

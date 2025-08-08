@@ -5,15 +5,15 @@ import bcrypt from 'bcryptjs'
 
 const addEmployee = async (request: Request, response: Response) => {
     try{
-        const {name, password, salary, rate, role, address, phoneNumber} = request.body;
-        const employee = await Employee.create({name: name, password: password, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber});
+        const {name, password, salary, rate, role, address, phoneNumber, salaryType} = request.body;
+        const employee = await Employee.create({name: name, password: password, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber, salaryType: salaryType});
         
         if (!employee){
             response.status(500).json({message: "Error adding employee"});
             return;
         }
 
-        response.status(200).json({message: "User registered successfully.", name: name, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber});
+        response.status(200).json({message: "User registered successfully.", name: name, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber, salaryType: salaryType});
     }
     catch(err: any)
     {
@@ -104,6 +104,7 @@ const loginEmployee = async (req: Request, res: Response) => {
           role: employee.role,
           address: employee.address,
           phoneNumber: employee.phoneNumber,
+          salaryType: employee.salaryType,
           token: generateToken(employee._id),
         });
       } else {

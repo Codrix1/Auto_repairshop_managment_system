@@ -7,6 +7,7 @@ export interface IEmployee extends Document {
   phoneNumber: string;
   address: string;
   salary: number;
+  salaryType: string;
   rate: number;
   role: 'mechanic' | 'secertary' | 'admin';
 }
@@ -15,6 +16,7 @@ const EmployeeSchema = new Schema<IEmployee>({
   name: { type: String, required: true },
   password: { type: String, required: true },
   salary: { type: Number, required: true },
+  salaryType: { type: String, enum: ['hourly', 'monthly'], required: true },
   rate: { type: Number, required: true },
   address: { type: String, required: true },
   phoneNumber: { type: String, required: true },

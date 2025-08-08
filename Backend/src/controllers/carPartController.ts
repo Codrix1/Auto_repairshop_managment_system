@@ -1,21 +1,21 @@
 import { Request, Response } from "express";
-import { CarPart } from "../models/CarPart";
+import { CarPart } from "../models/carPart";
 
 const CATEGORY_ENUM = ['Oils', 'Oil Filters', 'AC Filters', 'Air Filters', 'Petrol Filters', 'Bejohant', 'Seuor'];
 
 export const addCarPart = async (req: Request, res: Response) => {
     try {
-        const { name, buyingPrice, sellingPrice, quantity, category, isImported, madeIn, supplier } = req.body;
-
+        const { name, buyingPrice, sellingPrice, quantity, category, External, madeIn, supplier } = req.body;
+        
         // Validate required fields
-        if (!name || buyingPrice == null || sellingPrice == null || quantity == null || !madeIn || !supplier || !category) {
+        if (!name || buyingPrice == null || sellingPrice == null || quantity == null || !supplier || !category) {
             return res.status(400).json({ message: "Missing required fields: name, buyingPrice, sellingPrice, quantity, madeIn, supplier, category" });
         }
         if (!CATEGORY_ENUM.includes(category)) {
             return res.status(400).json({ message: `Invalid category. Must be one of: ${CATEGORY_ENUM.join(", ")}` });
         }
 
-        const carPart = new CarPart({ name, buyingPrice, sellingPrice, quantity, category, isImported, madeIn, supplier });
+        const carPart = new CarPart({ name, buyingPrice, sellingPrice, quantity, category, External, madeIn, supplier });
         await carPart.save();
         res.status(201).json(carPart);
     }

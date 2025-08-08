@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import Customer from "../models/Customer";
-
+import Customer from "../models/customer";
 
 const addCustomer = async (request: Request, response: Response) => {
-    try{
-        const {name, phone} = request.body;
+    try {
+        const { name, phone } = request.body;
         const customer = await Customer.create({customerName: name, customerPhone: phone});
         
         if (!customer){

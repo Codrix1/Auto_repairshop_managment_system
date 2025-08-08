@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Attendance from "../models/Attendance";
+import Attendance from "../models/attendance";
 
 export const getAllAttendances = async (req: Request, res: Response) => {
     try {

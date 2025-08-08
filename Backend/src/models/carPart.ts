@@ -5,9 +5,9 @@ export interface ICarPart extends Document {
     buyingPrice: number;
     sellingPrice: number;
     quantity: number;
-    isImported?: boolean;
-    madeIn: string;
-    supplier?: Types.ObjectId;
+    External?: boolean;
+    madeIn?: string;
+    supplier: Types.ObjectId;
     category: 'Oils' | 'Oil Filters' | 'AC Filters' | 'Air Filters' | 'Petrol Filters' | 'Bejohant' | 'Seuor';
 }
 
@@ -16,8 +16,8 @@ const CarPartSchema = new Schema({
     buyingPrice: { type: Number, required: true },
     sellingPrice: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    isImported: { type: Boolean, default: false },
-    madeIn: { type: String, required: true },
+    External: { type: Boolean, default: false },
+    madeIn: { type: String, default: "Egypt" },
     supplier: {type: Schema.Types.ObjectId, ref: "Supplier", required: true },
     category: {
         type: String,
