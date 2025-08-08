@@ -6,7 +6,7 @@ export interface IAttendance extends Document {
     attendanceDate: string;
     checkIn?: string;
     checkOut?: string;
-    status: 'present' | 'absent' | 'excused';
+    status?: 'present' | 'absent' | 'excused';
     note?: string;
 }
 

@@ -35,7 +35,7 @@ export const getAttendanceById = async (req: Request, res: Response) => {
 
 export const takeAttendance = async (req: Request, res: Response) => {
     try {
-        const {employeeId, status, note} = req.body;
+        const { employeeId, status, note } = req.body;
         const now = new Date();
         const yyyy = now.getFullYear();
         const mm = String(now.getMonth() + 1).padStart(2, '0'); 
