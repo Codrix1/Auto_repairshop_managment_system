@@ -5,15 +5,16 @@ import bcrypt from 'bcryptjs'
 
 const addEmployee = async (request: Request, response: Response) => {
     try{
-        const {name, password, salary, rate, role, address, phoneNumber, salaryType} = request.body;
-        const employee = await Employee.create({name: name, password: password, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber, salaryType: salaryType});
+        const {name, password, role, address, phoneNumber, salary, salaryType, rate} = request.body;
+        const employee = await Employee.create({name: name, password: password, role: role, address: address, phoneNumber: phoneNumber, salary: salary, salaryType: salaryType, rate: rate});
         
         if (!employee){
             response.status(500).json({message: "Error adding employee"});
             return;
         }
 
-        response.status(200).json({message: "User registered successfully.", name: name, salary: salary, rate: rate, role: role, address: address, phoneNumber: phoneNumber, salaryType: salaryType});
+        response.status(200).json({message: "User registered successfully.", name: name, role: role, address: address, phoneNumber: phoneNumber, salary: salary, salaryType: salaryType, rate: rate});
+
     }
     catch(err: any)
     {
@@ -99,12 +100,12 @@ const loginEmployee = async (req: Request, res: Response) => {
           message: "Logged in successfully",
           _id: employee._id,
           name: employee.name,
-          salary: employee.salary,
-          rate: employee.rate,
           role: employee.role,
           address: employee.address,
           phoneNumber: employee.phoneNumber,
+          salary: employee.salary,
           salaryType: employee.salaryType,
+          rate: employee.rate,
           token: generateToken(employee._id),
         });
       } else {
@@ -115,4 +116,4 @@ const loginEmployee = async (req: Request, res: Response) => {
     }
   };
 
-export {loginEmployee, addEmployee,getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee};
+export {loginEmployee, addEmployee, getAllEmployees, getEmployeeById, updateEmployee, deleteEmployee};

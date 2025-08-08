@@ -1,4 +1,4 @@
-import { Schema, model, Document, Types } from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 
 export interface ISupplier extends Document {
   supplierName: string;
@@ -7,8 +7,8 @@ export interface ISupplier extends Document {
 }
 
 const SupplierSchema = new Schema<ISupplier>({
-    supplierName: { type: String, required: true },
-    supplierPhone: { type: String, required: true },
+    supplierName:    { type: String, required: true },
+    supplierPhone:   { type: String, required: true },
     supplierAddress: { type: String, required: true },
 });
 
