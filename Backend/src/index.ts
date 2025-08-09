@@ -3,13 +3,14 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectToDB from "./connections/DB";
+import connectToDB from "./connections/Db";
 import { errorHandler } from "./middlewares/errorMiddleware";
 import customerRouter from "./routes/customerRouter";
 import employeeRouter from "./routes/employeeRouter";
 import carRouter from "./routes/carRouter";
 import attendanceRouter from "./routes/attendanceRouter";
 import carPartsRouter from "./routes/carPartsRouter";
+import supplierRouter from "./routes/supplierRouter";
 
 // load dotenv file
 dotenv.config({quiet: true});
@@ -35,6 +36,7 @@ app.use('/employees', employeeRouter);
 app.use('/cars', carRouter);
 app.use('/attendances', attendanceRouter);
 app.use('/carParts', carPartsRouter);
+app.use('/suppliers', supplierRouter);
 
 // define port 
 const port = process.env.PORT || 5000;

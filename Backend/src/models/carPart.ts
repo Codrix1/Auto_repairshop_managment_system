@@ -22,7 +22,7 @@ const CarPartSchema = new Schema({
     category: {
         type: String,
         enum: ['Oils', 'Oil Filters', 'AC Filters', 'Air Filters', 'Petrol Filters', 'Bejohant', 'Seuor'],
-        default: 'mechanic'
+        required: true
     },
 });
 
