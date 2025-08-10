@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import asyncHandler from "express-async-handler";
 import { AuthenticationError } from "./errorMiddleware";
-import Employee from "../models/Employee";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 const roleMiddleware = (role: string) => asyncHandler(

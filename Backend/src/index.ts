@@ -12,6 +12,7 @@ import carRouter from "./routes/carRouter";
 import attendanceRouter from "./routes/attendanceRouter";
 import carPartsRouter from "./routes/carPartsRouter";
 import supplierRouter from "./routes/supplierRouter";
+import userRouter from "./routes/userRouter";
 
 // load dotenv file
 dotenv.config({quiet: true});
@@ -60,6 +61,8 @@ app.use('/cars', carRouter);
 app.use('/attendances', attendanceRouter);
 app.use('/carParts', carPartsRouter);
 app.use('/suppliers', supplierRouter);
+app.use('/users', userRouter);
+
 
 // add errorhandler middleware (after routes)
 app.use(errorHandler);

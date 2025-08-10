@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import Employee from "../models/Employee";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
+import User from "../models/User";
 
 dotenv.config({ quiet: true })
 
@@ -24,7 +24,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       if (!token) return res.status(401).json({ error: 'Not authorized, verify your token.' });
   
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-      req.employee = await Employee.findById(decoded.id).select('-password'); 
+      req.employee = await User.findById(decoded.id).select('-password'); 
       next();
     } catch (error) {
       res.status(401).json({ error: 'Token invalid or expired' });
