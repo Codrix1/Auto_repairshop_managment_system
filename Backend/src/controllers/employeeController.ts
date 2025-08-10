@@ -106,7 +106,7 @@ const loginEmployee = async (req: Request, res: Response) => {
           salary: employee.salary,
           salaryType: employee.salaryType,
           rate: employee.rate,
-          token: generateToken(employee._id),
+          token: generateToken(employee._id, employee.role),
         });
       } else {
         res.status(401).json({ error: 'Invalid Data' });

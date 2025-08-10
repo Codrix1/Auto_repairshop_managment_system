@@ -13,8 +13,7 @@ const roleMiddleware = (role: string) => asyncHandler(
         return;
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-        const employee = await Employee.findById(decoded.id);   
-        if (employee?.role != role) {
+        if (decoded.role != role) {
           throw new AuthenticationError(`You are not authorized to view this page, role needed: ${role}`);
         }
         next();
