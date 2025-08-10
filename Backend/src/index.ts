@@ -5,6 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectToDB from "./connections/Db";
 import { errorHandler } from "./middlewares/errorMiddleware";
+import loggerMiddleware from "./middlewares/loggerMiddleware";
 import customerRouter from "./routes/customerRouter";
 import employeeRouter from "./routes/employeeRouter";
 import carRouter from "./routes/carRouter";
@@ -24,11 +25,33 @@ const app = express();
 // add bodyparser for json requests
 app.use(bodyParser.json());
 
-// add errorhandler middleware
-app.use(errorHandler);
+// request/response logger (before routes)
+app.use(loggerMiddleware);
 
 // add cookie parser 
 app.use(cookieParser());
+
+const allowedOrigins = [
+  "http://26.107.169.142:8080",
+  "http://localhost:8080"
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 
 // add routes
 app.use('/customers', customerRouter);
@@ -38,16 +61,12 @@ app.use('/attendances', attendanceRouter);
 app.use('/carParts', carPartsRouter);
 app.use('/suppliers', supplierRouter);
 
+// add errorhandler middleware (after routes)
+app.use(errorHandler);
 // define port 
 const port = process.env.PORT || 5000;
 
-// apply cors middleware to allow access from browser
-app.use(
-    cors({
-      origin: "http://localhost:3000",
-      credentials: true,
-    })
-  );
+
 
 // start server
 app.listen(port, () => {

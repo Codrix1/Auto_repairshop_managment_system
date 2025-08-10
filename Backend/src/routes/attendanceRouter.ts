@@ -12,7 +12,7 @@ attendanceRouter.post("/checkin", authMiddleware, checkInEmployee);
 attendanceRouter.post("/checkout", authMiddleware, checkOutEmployee);
 attendanceRouter.get("/employee/:employeeId", authMiddleware, getAttendanceByEmployeeId);
 attendanceRouter.get("/date/:date", authMiddleware, getAttendanceByDate);
-attendanceRouter.put("/:id", authMiddleware, roleMiddleware('admin'), updateAttendance);
-attendanceRouter.delete("/:id", authMiddleware, roleMiddleware('admin'), removeAttendance);
+attendanceRouter.put("/:id", authMiddleware, updateAttendance);
+attendanceRouter.delete("/:id", authMiddleware,removeAttendance);
 
 export default attendanceRouter;

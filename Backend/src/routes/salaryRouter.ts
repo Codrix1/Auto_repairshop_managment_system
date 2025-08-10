@@ -7,8 +7,8 @@ const salaryRouter = Router();
 
 salaryRouter.get('/', authMiddleware, getAllSalaries);
 salaryRouter.post('/', addSalary);
-salaryRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteSalary);
-salaryRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateSalary);
+salaryRouter.delete('/:id', authMiddleware, deleteSalary);
+salaryRouter.put('/:id', authMiddleware, updateSalary);
 salaryRouter.get('/:id/calc-salary-by-week', authMiddleware, calcSalaryByWeek)
 salaryRouter.get('/:id/calc-salary-by-month', authMiddleware, calcSalaryByMonth)
 

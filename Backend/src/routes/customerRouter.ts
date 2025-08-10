@@ -13,8 +13,8 @@ const customerRouter = Router();
 
 customerRouter.get('/', authMiddleware, getAllCustomers);
 customerRouter.get('/:id', authMiddleware, getCustomerById);
-customerRouter.post('/', authMiddleware, roleMiddleware('admin'), addCustomer);
-customerRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateCustomer);
-customerRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteCustomer);
+customerRouter.post('/', authMiddleware, addCustomer);
+customerRouter.put('/:id', authMiddleware, updateCustomer);
+customerRouter.delete('/:id', authMiddleware, deleteCustomer);
 
 export default customerRouter;

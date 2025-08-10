@@ -15,11 +15,10 @@ supplierRouter.get("/", authMiddleware, getAllSuppliers);
 supplierRouter.get("/:id", authMiddleware, getSupplierById);
 
 // Create and update (admin only)
-supplierRouter.post("/", authMiddleware, roleMiddleware("admin"), addSupplier);
+supplierRouter.post("/", authMiddleware, addSupplier);
 supplierRouter.put(
   "/:id",
   authMiddleware,
-  roleMiddleware("admin"),
   updateSupplier
 );
 

@@ -5,10 +5,10 @@ import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const carPartsRouter = Router();
 
-carPartsRouter.post('/', authMiddleware, roleMiddleware('admin'), addCarPart);
+carPartsRouter.post('/', authMiddleware, addCarPart);
 carPartsRouter.get('/', authMiddleware, getAllCarParts);
 carPartsRouter.get('/:id', authMiddleware, getCarPartById);
-carPartsRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateCarPart);
-carPartsRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteCarPart);
+carPartsRouter.put('/:id', authMiddleware, updateCarPart);
+carPartsRouter.delete('/:id', authMiddleware, deleteCarPart);
 
 export default carPartsRouter;  

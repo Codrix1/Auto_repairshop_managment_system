@@ -9,7 +9,7 @@ employeeRouter.get('/', authMiddleware, getAllEmployees);
 employeeRouter.get('/:id', authMiddleware, getEmployeeById);
 employeeRouter.post('/', addEmployee);
 employeeRouter.post('/login', loginEmployee);
-employeeRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteEmployee);
-employeeRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateEmployee);
+employeeRouter.delete('/:id', authMiddleware, deleteEmployee);
+employeeRouter.put('/:id', authMiddleware, updateEmployee);
 
 export default employeeRouter;
