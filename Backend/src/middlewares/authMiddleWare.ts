@@ -20,10 +20,6 @@ interface JwtPayload {
 // Protect Route Middleware
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
-       if (req.method === "OPTIONS") {
-      return res.sendStatus(200); // skip auth for preflight
-      }
-
       const token = req.headers.authorization?.split(' ')[1];
       if (!token) return res.status(401).json({ error: 'Not authorized, verify your token.' });
   
