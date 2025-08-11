@@ -31,28 +31,27 @@ app.use(loggerMiddleware);
 
 // add cookie parser 
 app.use(cookieParser());
+
 const allowedOrigins = [
   "http://26.107.169.142:8080",
   "http://localhost:8080"
 ];
 
-const corsOptions: import("cors").CorsOptions = {
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      return callback(new Error("Not allowed by CORS"));
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
-};
-
-app.use(cors(corsOptions));
-
-// ✅ Explicitly respond to preflight requests
-app.options("*", cors(corsOptions));
+}));
 
 
 // add routes
