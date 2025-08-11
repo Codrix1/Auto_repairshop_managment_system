@@ -53,6 +53,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.options("*", cors());
 
 // add routes
 app.use('/customers', customerRouter);
