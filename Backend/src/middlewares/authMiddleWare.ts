@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import User from "../models/User";
 
-dotenv.config({ quiet: true })
+dotenv.config({path: '../.env', quiet: true});
 
 // Extend Express Request type to include 'employee'
 declare module 'express-serve-static-core' {

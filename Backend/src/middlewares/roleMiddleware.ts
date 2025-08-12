@@ -3,6 +3,10 @@ import asyncHandler from "express-async-handler";
 import { AuthenticationError } from "./errorMiddleware";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+
+dotenv.config({path: '../.env', quiet: true});
+
 const roleMiddleware = (role: string) => asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
     try {

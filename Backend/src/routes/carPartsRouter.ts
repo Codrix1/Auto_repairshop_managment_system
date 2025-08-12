@@ -10,4 +10,5 @@ carPartsRouter.get('/', authMiddleware,getAllCarParts);
 carPartsRouter.get('/:id', authMiddleware, getCarPartById);
 carPartsRouter.put('/:id', authMiddleware, roleMiddleware("admin"), updateCarPart);
 carPartsRouter.delete('/:id', authMiddleware, roleMiddleware("admin"), deleteCarPart);
+
 export default carPartsRouter;

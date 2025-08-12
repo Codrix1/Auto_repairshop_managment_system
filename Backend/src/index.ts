@@ -13,6 +13,11 @@ import attendanceRouter from "./routes/attendanceRouter";
 import carPartsRouter from "./routes/carPartsRouter";
 import supplierRouter from "./routes/supplierRouter";
 import userRouter from "./routes/userRouter";
+import salaryRouter from "./routes/salaryRouter";
+import billRouter from "./routes/billRouter";
+import workRouter from "./routes/workRouter";
+import deductibleRouter from "./routes/deductibleRouter";
+import installmentRouter from "./routes/installmentRouter";
 
 // load dotenv file
 dotenv.config({quiet: true});
@@ -34,7 +39,8 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://26.107.169.142:8080",
-  "http://localhost:8080"
+  "http://localhost:8080",
+  "https://preview--gas-auto-pilot-system.lovable.app/",
 ];
 
 app.use(cors({
@@ -62,14 +68,17 @@ app.use('/attendances', attendanceRouter);
 app.use('/carParts', carPartsRouter);
 app.use('/suppliers', supplierRouter);
 app.use('/users', userRouter);
+app.use("/salaries", salaryRouter)
+app.use("/bills", billRouter);
+app.use("/works", workRouter);
+app.use("/deductibles", deductibleRouter);
+app.use("/installments", installmentRouter);
 
-
-// add errorhandler middleware (after routes)
+// add error handler middleware (after routes)
 app.use(errorHandler);
+
 // define port 
 const port = process.env.PORT || 5000;
-
-
 
 // start server
 app.listen(port, () => {

@@ -5,8 +5,8 @@ import { calculateSalaryByWeek, calculateSalaryByMonth } from "../utils/salary";
 
 const addSalary = async (request: Request, response: Response) => {
     try{
-        const {employeeId, calculatedSalary, bonus} = request.body;
-        const newSalary = await Salary.create({employeeId: employeeId, calculatedSalary: calculatedSalary, bonus: bonus});
+        const {employeeId, calculatedSalary, bonus, salaryDate} = request.body;
+        const newSalary = await Salary.create({employeeId: employeeId, calculatedSalary: calculatedSalary, bonus: bonus, salaryDate: salaryDate});
 
         if (!newSalary){
             response.status(500).json({message: "Error adding Salary"});

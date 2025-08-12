@@ -22,7 +22,7 @@ const attendanceSchema = new Schema<IAttendance>({
     },
     note: { type: String }
     }, {
-timestamps: true
+    timestamps: true
 });
 
 attendanceSchema.index({ employeeId: 1, attendanceDate: 1 }, { unique: true });
