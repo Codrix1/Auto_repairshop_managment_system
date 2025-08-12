@@ -7,7 +7,7 @@ export interface IEmployee extends Document {
   salary: number;
   salaryType: string;
   rate: number;
-  role: 'mechanic' | 'secertary' | 'admin';
+  role: 'mechanic' | 'secretary' | 'admin';
 }
 
 const EmployeeSchema = new Schema<IEmployee>({
@@ -19,7 +19,7 @@ const EmployeeSchema = new Schema<IEmployee>({
   rate: { type: Number, required: true },
   role: {
     type: String,
-    enum: ['mechanic', 'secertary', 'admin'],
+    enum: ['mechanic', 'secretary', 'admin'],
     default: 'mechanic'
   },
 });

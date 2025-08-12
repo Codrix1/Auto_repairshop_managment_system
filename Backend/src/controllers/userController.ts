@@ -89,8 +89,10 @@ export const deleteUser = async (request: Request, response: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
+        console.log("Received JSON:", req.body);
         const { name, password } = req.body;
-        const user = await User.findOne({ name: name });
+        const user = await User.findOne({ username:name });
+        console.log("query result:", user);
         if (user && (await bcrypt.compare(password, user.password))) {
             res.status(200).json({
                 message: "Logged in successfully",
@@ -100,7 +102,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 token: generateToken(user._id, user.role),
             });
         } else {
-            res.status(401).json({ error: 'Invalid Data' });
+            res.status(401).json({ error: 'Invalid fuckhead Data' });
         }
     } catch (error: any) {
         res.status(400).json({ error: error.message });
