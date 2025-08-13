@@ -15,6 +15,6 @@ customerRouter.get('/', authMiddleware, getAllCustomers);
 customerRouter.get('/:id', authMiddleware, getCustomerById);
 customerRouter.post('/', authMiddleware, addCustomer);
 customerRouter.put('/:id', authMiddleware, updateCustomer);
-customerRouter.delete('/:id', authMiddleware, deleteCustomer);
+customerRouter.delete('/:id', authMiddleware, roleMiddleware("admin"),deleteCustomer);
 
 export default customerRouter;

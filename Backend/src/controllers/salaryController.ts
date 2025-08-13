@@ -37,6 +37,20 @@ const getAllSalaries = async (response: Response) => {
     }
 }
 
+export const getSalaryById = async (request: Request, response: Response) => {
+    try{
+        const salaryId = request.params.id;
+        const salary = await Salary.findById(salaryId);
+        if (!salary){
+            response.status(500).json("No Salary found");
+            return;
+        }
+    }
+    catch(err: any){
+        response.status(500).json({message: err.message})
+    }
+}
+
 const updateSalary = async (request: Request, response: Response) => {
     try{
         const salaryId = request.params.id;

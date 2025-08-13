@@ -5,11 +5,11 @@ import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const userRouter = Router();
 
-userRouter.get('/', authMiddleware, getAllUsers);
-userRouter.get('/:id', authMiddleware, getUserById);
-userRouter.post('/', addUser);
+userRouter.get('/', authMiddleware, roleMiddleware('admin'), getAllUsers);
+userRouter.get('/:id', authMiddleware, roleMiddleware('admin'), getUserById);
+userRouter.post('/', authMiddleware, roleMiddleware('admin'), addUser);
 userRouter.post('/login', loginUser);
-userRouter.delete('/:id', authMiddleware, deleteUser);
-userRouter.put('/:id', authMiddleware, updateUser);
+userRouter.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteUser);
+userRouter.put('/:id', authMiddleware, roleMiddleware('admin'), updateUser);
 
 export default userRouter;

@@ -5,7 +5,7 @@ import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const billRouter = Router();
 
-billRouter.post('/', authMiddleware, roleMiddleware("admin"), addBill);
+billRouter.post('/', authMiddleware, addBill);
 billRouter.get('/', authMiddleware, getAllBills);
 billRouter.get('/:id', authMiddleware, getBillById);
 billRouter.put('/:id', authMiddleware, roleMiddleware("admin"), updateBill);

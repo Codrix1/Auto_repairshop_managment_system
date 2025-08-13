@@ -5,10 +5,10 @@ import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const employeeRouter = Router();
 
-employeeRouter.get('/', authMiddleware, getAllEmployees);
+employeeRouter.get('/', authMiddleware, roleMiddleware("admin") ,getAllEmployees);
 employeeRouter.get('/:id', authMiddleware, getEmployeeById);
-employeeRouter.post('/', addEmployee);
-employeeRouter.delete('/:id', authMiddleware, deleteEmployee);
-employeeRouter.put('/:id', authMiddleware, updateEmployee);
+employeeRouter.post('/', authMiddleware, roleMiddleware("admin"),addEmployee);
+employeeRouter.delete('/:id', authMiddleware, roleMiddleware("admin"), deleteEmployee);
+employeeRouter.put('/:id', authMiddleware, roleMiddleware("admin") ,updateEmployee);
 
 export default employeeRouter;
