@@ -37,27 +37,29 @@ app.use(loggerMiddleware);
 // add cookie parser 
 app.use(cookieParser());
 
-const allowedOrigins = [
-  "http://26.107.169.142:8080",
-  "http://localhost:8080",
-  "https://preview--gas-auto-pilot-system.lovable.app/",
-];
+// const allowedOrigins = [
+//   "http://26.107.169.142:8080",
+//   "http://localhost:8080",
+//   "https://preview--gas-auto-pilot-system.lovable.app/",
+// ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     // Allow requests with no origin (like mobile apps or curl requests)
+//     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+//     if (allowedOrigins.includes(origin)) {
+//       return callback(null, true);
+//     } else {
+//       return callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true
+// }));
+
+app.use(cors());
 
 
 // add routes
@@ -73,6 +75,10 @@ app.use("/bills", billRouter);
 app.use("/works", workRouter);
 app.use("/deductibles", deductibleRouter);
 app.use("/installments", installmentRouter);
+
+app.get("/", (req, res) => {
+  res.json({message: "Hello From Gas Auto Service!"});
+})
 
 // add error handler middleware (after routes)
 app.use(errorHandler);
