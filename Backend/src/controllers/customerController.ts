@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import Customer from "../models/customer";
+import Employee from "../models/Employee";
+import Attendance from "../models/attendance";
 
 const addCustomer = async (request: Request, response: Response) => {
     try {
@@ -18,6 +20,25 @@ const addCustomer = async (request: Request, response: Response) => {
         response.status(500).json({message: err})
     }
 }
+
+
+export const setDailyAttendanceRecords = async (req: Request, res: Response) => {
+    try {
+        const currentEmployees = await Employee.find({ $or: [{ "role": "mechanic" }, { "role": "secertary" }] })
+        currentEmployees.forEach(async employee => {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const attendanceDate = `${yyyy}-${mm}-${dd}`;
+            await Attendance.create({ employeeId: employee._id, attendanceDate: attendanceDate })
+        });
+    }
+    catch (err: any) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
 
 const getAllCustomers = async (request: Request, response: Response) => {
     try{
