@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Attendance from "../models/attendance";
+import Employee from "../models/Employee";
 
 export const getAllAttendances = async (req: Request, res: Response) => {
     try {
@@ -15,6 +16,25 @@ export const getAllAttendances = async (req: Request, res: Response) => {
     {
         res.status(500).json({message: err.message})
     }
+}
+
+export const setDailyAttendanceRecords = async (req: Request, res: Response) => {
+    try {
+        const currentEmployees = await Employee.find({ $or: [{ "role": "mechanic" }, { "role": "secertary" }] })
+        currentEmployees.forEach(async employee => {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const attendanceDate = `${yyyy}-${mm}-${dd}`;
+            await Attendance.create({ employeeId: employee._id, attendanceDate: attendanceDate })
+        });
+    }
+    catch (err: any) {
+        res.status(500).json({ message: err.message })
+    }
+
+
 }
 
 export const getAttendanceById = async (req: Request, res: Response) => {
