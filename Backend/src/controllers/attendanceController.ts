@@ -18,25 +18,6 @@ export const getAllAttendances = async (req: Request, res: Response) => {
     }
 }
 
-export const setDailyAttendanceRecords = async (req: Request, res: Response) => {
-    try {
-        const currentEmployees = await Employee.find({ $or: [{ "role": "mechanic" }, { "role": "secertary" }] })
-        currentEmployees.forEach(async employee => {
-            const now = new Date();
-            const yyyy = now.getFullYear();
-            const mm = String(now.getMonth() + 1).padStart(2, '0');
-            const dd = String(now.getDate()).padStart(2, '0');
-            const attendanceDate = `${yyyy}-${mm}-${dd}`;
-            await Attendance.create({ employeeId: employee._id, attendanceDate: attendanceDate })
-        });
-    }
-    catch (err: any) {
-        res.status(500).json({ message: err.message })
-    }
-
-
-}
-
 export const getAttendanceById = async (req: Request, res: Response) => {
     try {
         const attendance = await Attendance.findById(req.params.id);
@@ -147,14 +128,32 @@ export const getAttendanceByEmployeeId = async (req: Request, res: Response) => 
 
 export const getAttendanceByDate = async (req: Request, res: Response) => {
     try {
-        const {date} = req.params;
-        const attendance = await Attendance.find({attendanceDate: date}).populate('employeeId', 'employeeName employeePhone');
-        if(!attendance)
-        {
-            res.status(404).json({message: "Attendance not found"})
-            return;
+        
+        const { date } = req.params;
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const attendanceDate = `${yyyy}-${mm}-${dd}`;
+
+
+        const attendance = await Attendance.find({ attendanceDate: date }).populate('employeeId', 'employeeName salaryType');
+        
+        if (date == attendanceDate && !attendance) {
+                const currentEmployees = await Employee.find({
+                    role: { $in: ["mechanic", "secretary"] }
+                });
+                for (const employee of currentEmployees) {
+                    await Attendance.create({
+                        employeeId: employee._id,
+                        attendanceDate
+                    });    
+            }
+            
+            return res.status(200).json({ message: "Daily attendance set successfully" });
         }
-        res.status(200).json(attendance);
+
+        return res.status(200).json(attendance);
     }
     catch(err: any)
     {
